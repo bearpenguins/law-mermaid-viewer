@@ -17,10 +17,6 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// Catch-all for SPA routes
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
 
 
 /**
