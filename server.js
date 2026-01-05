@@ -46,7 +46,6 @@ classDef location fill:#fff7ed,stroke:#9a3412,color:#000;
 
 
 app.use(express.static("."));
-const path = require("path");
 
 
 app.post("/generate", upload.array("files"), async (req, res) => {
