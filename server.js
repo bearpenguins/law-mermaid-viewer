@@ -2,8 +2,20 @@ const express = require("express");
 const multer = require("multer");
 const fs = require("fs");
 const dotenv = require("dotenv");
+const path = require("path"); // Move path require to the top
 
 dotenv.config();
+
+const app = express();
+const upload = multer({ dest: "uploads/" });
+
+// Serve all static files (JS, CSS, Mermaid assets, etc.)
+app.use(express.static(__dirname));
+
+// Explicitly serve index.html at root
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "index.html"));
+});
 
 /**
  * Extracts valid Mermaid code from Claude output.
@@ -33,10 +45,9 @@ classDef location fill:#fff7ed,stroke:#9a3412,color:#000;
 }
 
 
-const app = express();
-const upload = multer({ dest: "uploads/" });
-
 app.use(express.static("."));
+const path = require("path");
+
 
 app.post("/generate", upload.array("files"), async (req, res) => {
     try {
