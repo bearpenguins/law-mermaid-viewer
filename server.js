@@ -10,13 +10,17 @@ const app = express();
 const upload = multer({ dest: "uploads/" });
 
 // Serve all static files (JS, CSS, Mermaid assets, etc.)
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Explicitly serve index.html at root
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+// Catch-all for SPA routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 /**
  * Extracts valid Mermaid code from Claude output.
@@ -46,7 +50,6 @@ classDef location fill:#fff7ed,stroke:#9a3412,color:#000;
 }
 
 
-app.use(express.static(path.join(__dirname, "public")));
 
 app.post("/generate", upload.array("files"), async (req, res) => {
     try {
