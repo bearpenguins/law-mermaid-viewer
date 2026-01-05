@@ -95,8 +95,9 @@ button { margin-right: 8px; }
 </section>
 
 <section id="diagram-container">
-  <div id="viewport">
+    <div id="viewport">
     <div id="diagram"></div>
+    <pre id="mermaidCode" style="display:none; white-space: pre-wrap;"></pre>
   </div>
 </section>
 
@@ -107,6 +108,15 @@ button { margin-right: 8px; }
   <button onclick="resetZoom()">Reset</button>
   <button onclick="downloadPNG()">Download PNG</button>
 </section>
+
+<section>
+  <button onclick="zoom(1.2)">Zoom In</button>
+  <button onclick="zoom(0.8)">Zoom Out</button>
+  <button onclick="resetZoom()">Reset</button>
+  <button onclick="downloadPNG()">Download PNG</button>
+  <button id="toggleViewBtn" onclick="toggleView()">Show Mermaid Code</button>
+</section>
+
 
 <section>
   <h3>Concept Legend (Click to filter)</h3>
@@ -161,6 +171,8 @@ async function renderDiagram(code) {
 ${code}
     </div>
   `;
+
+  document.getElementById("mermaidCode").textContent = code;
 
   await mermaid.run();
 
@@ -243,6 +255,30 @@ window.addEventListener("mouseup", () => {
   isDragging = false;
   container().classList.remove("dragging");
 });
+
+let isCodeView = false;
+
+function toggleView() {
+  const diagramDiv = document.getElementById("diagram");
+  const codeDiv = document.getElementById("mermaidCode");
+  const btn = document.getElementById("toggleViewBtn");
+
+  if (isCodeView) {
+    // Switch to diagram
+    codeDiv.style.display = "none";
+    diagramDiv.style.display = "block";
+    btn.textContent = "Show Mermaid Code";
+  } else {
+    // Switch to code
+    codeDiv.textContent = diagramDiv.textContent; // show the raw Mermaid code
+    codeDiv.style.display = "block";
+    diagramDiv.style.display = "none";
+    btn.textContent = "Show Diagram";
+  }
+
+  isCodeView = !isCodeView;
+}
+
 </script>
 
 
