@@ -18,9 +18,10 @@ app.get("/", (req, res) => {
 });
 
 // Catch-all for SPA routes
-app.get("*", (req, res) => {
+app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+
 
 /**
  * Extracts valid Mermaid code from Claude output.
