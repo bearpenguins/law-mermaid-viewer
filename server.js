@@ -14,8 +14,9 @@ app.use(express.static(__dirname));
 
 // Explicitly serve index.html at root
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "index.html"));
+    res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+
 
 /**
  * Extracts valid Mermaid code from Claude output.
@@ -45,8 +46,7 @@ classDef location fill:#fff7ed,stroke:#9a3412,color:#000;
 }
 
 
-app.use(express.static("."));
-
+app.use(express.static(path.join(__dirname, "public")));
 
 app.post("/generate", upload.array("files"), async (req, res) => {
     try {
